@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/@sjmc11/tourguidejs/dist/css/tour.min.css">
+    <script src="https://unpkg.com/@sjmc11/tourguidejs/dist/tour.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <script src="./jquery3.6.min.js"></script>
+    <script src="./tour.js"></script>
+    <link rel="stylesheet" href="./tour.min.css">
     <!-- <script src="./splide.min.js"></script> -->
     <!-- <script src="./splide.css"></script> -->
     <style>
@@ -350,6 +354,16 @@
                                 <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
                             </a>
                         </li>
+                        <li>
+                            <a href="./whackamole/" class="ContestBody" style="height: 200px;overflow: hidden;">
+                                <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./whackamole/" class="ContestBody" style="height: 200px;overflow: hidden;">
+                                <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="foot"></div>
@@ -392,10 +406,54 @@
             splide.mount();
         });
     </script>
+    <script type="module">
+        import TourGuideClient from "https://cdn.skypack.dev/@sjmc11/tourguidejs@0.0.7";
+        const steps = [
+            {
+                content: "This is a short guide to get you set up and show you where things are",
+                title: "Welcome aboard 👋",
+                target: ActivityBar,
+                order: 1,
+                group: ""
+            },
+            {
+                content: "This is a short guide to get you set up and show you where things are",
+                title: "Select activity",
+                target: GameBar,
+                order: 2,
+                group: ""
+            },
+            {
+                content: "This is a short guide to get you set up and show you where things are",
+                title: "Welcome aboard  test!!!👋",
+                target: SettingsModal,
+                order: 3,
+                group: ""
+            },
+        
+        
+        ];
+
+        const tg = new TourGuideClient({
+            progressBar: "#999",
+            exitOnEscape: false,
+            exitOnClickOutside: false,
+            closeButton: false,
+            steps: steps
+        });
+
+        window.addEventListener('load', ()=>{
+            tg.start();
+        });
+    </script>
     <script>
         const canvas = document.querySelector('#canvas');
         const ctx = canvas.getContext('2d');
         let canvasLeftOffset;
+
+        let ActivityBar = document.querySelector('#openActivityBar');
+        let GameBar = document.querySelector('#openGameBar');
+        let SettingsModal = document.querySelector('#openSettingsModal');
 
         class CanvasScreen {
             constructor(canvas, context, img) {
@@ -427,6 +485,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             GameScreen.draw();
+           
         });
 
         window.addEventListener('resize', (e) => {
