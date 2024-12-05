@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack a mole</title>
+    <style>
+        *,
+        html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            align-items: center;
+        }
+
+        canvas {
+            position: fixed;
+        }
+
+        .bg-brown {
+            background: #643112;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="./background.png" alt="" id="imgbg" style="display: none;">
+    <img src="./dirt.png" alt="" id="dirt" style="display: none;">
+    <div class="bg-brown">
+        <canvas id="canvas" width="768" height="1024"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.top = 0;
+        canvas.style.left = 0;
+        let score = 0;
+        let timer = 0;
+
+        window.addEventListener('resize', (e) => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+        });
+
+        // Mouse Interactivity
+        let canvasPosition = canvas.getBoundingClientRect();
+        const mouse = {
+            x: canvas.width * 0.5,
+            y: canvas.height * 0.5,
+        }
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.x - canvasPosition.left;
+            mouse.y = e.y - canvasPosition.top;
+        });
+        canvas.addEventListener('click', (e) => {
+            mouse.x = e.x - canvasPosition.left;
+            mouse.y = e.y - canvasPosition.top;
+        });
+        // Player (hammer)
+        class PLayer {
+            constructor(x, y, img) {
+                this.x = x;
+                this.y = y;
+                this.width = 50;
+                this.height = 50;
+                this.lives = 3;
+                // this.img = img;
+            }
+            draw(ctx) {
+                ctx.fillStyle = 'yellow';
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            update(ctx) {
+                this.x = mouse.x - this.width * 0.5;
+                this.y = mouse.y - this.height * 0.5;
+                this.draw(ctx);
+            }
+        }
+
+        const player = new PLayer(mouse.x, mouse.y)
+        
+
+        // Moles
+        class Moles {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.image = '';
+                this.hasMole = false;
+            }
+            draw(ctx, i) {
+                ctx.fillStyle = 'brown';
+                ctx.fillText(i.toString(), this.x, this.y)
+                ctx.fillRect(this.x, this.y, 80, 30);
+            }
+            drawDirt() {
+                console.log(this.cols);
+            }
+        }
+
+        // Game UI
+        class UI {
+            constructor() {
+                this.cols = 3;
+                this.rows = 1;
+                this.background = '';
+                this.score = score;
+                this.timer = 0;
+                this.lives = '3';
+                this.score = '0';
+                this.moles = [];
+            }
+            drawMoles() {
+                for (let i=1; i<=this.rows; i++) {
+                    for(let j=0;j<this.cols;j++) {
+                        this.moles.push(new Moles((canvas.width * 0.5 - (j * 100) + 10), (canvas.height * 0.5 ) - (60 * i)))
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = 'black'
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            drawLives() {
+                // ctx.drawImage();
+                ctx.fillStyle = 'blue';
+                ctx.fillRect(10, 10, 150, 30);
+                ctx.fillStyle = 'black';
+                ctx.fillText(this.score, 85, 28)
+            }
+            drawScore() {
+                // ctx.drawImage();
+                
+                ctx.fillStyle = 'green';
+                ctx.fillRect(180, 10, 150, 30);
+                ctx.fillStyle = 'black';
+                ctx.fillText(this.lives, 265, 28)
+            }
+        }
+        const gameUI = new UI();
+        gameUI.drawMoles();
+
+        // Game functions
+        function startGame() { }
+        function gameOver() { }
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gameUI.draw();
+            gameUI.drawLives();
+            gameUI.drawScore();
+            
+            for (let i = 0; i < gameUI.moles.length; i++) {
+                gameUI.moles[i].draw(ctx, i);
+            }
+            player.update(ctx);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    </script>
+</body>
+
+</html>

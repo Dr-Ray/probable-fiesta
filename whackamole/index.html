@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack a mole</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="d-none">
+        <img src="./images/background.png" id="background" alt="">
+        <img src="./images/whackamole.png" id="startPage" alt="">
+        <img src="./images/mole_01.png" id="mole" alt="">
+        <img src="./images/dirt.png" id="dirt" alt="">
+
+        <img src="./images/dirt.png" id="dirt" alt="">
+        <img src="./images/item_pop.png" id="gameOverBoard" alt="">
+        <img src="./images/item_score.png" id="item_pop" alt="">
+        <img src="./images/item_timer.png" id="item_timer" alt="">
+        <img src="./images/hammer.png" id="hammer" alt="">
+    </div>
+    <script src="./mole.js" type="module"></script>
+    <script src="./background.js" type="module"></script>
+    <script src="./player.js" type="module"></script>
+    <script src="./main.js" type="module"></script>
+</body>
+
+</html>
