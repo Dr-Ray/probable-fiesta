@@ -376,6 +376,7 @@
             <img src="./beach-sheet0.png" id="beachScene" alt="">
             <img src="./bluestage-sheet0.png" id="stageScene" alt="">
             <img src="./background.png" id="outDoorStageScene" alt="">
+            <audio src="./merx-market-song-33936.mp3" id="bgSound"></audio>
         </div>
     </div>
     <script>
@@ -455,6 +456,23 @@
         let GameBar = document.querySelector('#openGameBar');
         let SettingsModal = document.querySelector('#openSettingsModal');
 
+        class AudioControl{
+            constructor() {
+                this.bgMusic = document.querySelector('#bgSound');
+            }
+            playbgMusic() {
+                this.bgMusic.play();
+            }
+
+            loopBgMusic() {
+                this.bgMusic.play();
+                this.bgMusic.loop = true;
+            }
+            stopBgMusic() {
+                this.bgMusic.stop();
+            }
+        }
+
         class CanvasScreen {
             constructor(canvas, context, img) {
                 this.canvas = canvas;
@@ -480,12 +498,13 @@
         }
 
         const GameScreen = new CanvasScreen(canvas, ctx, document.querySelector('#interiorScene'));
+        const bgMusic = new AudioControl();
 
         window.addEventListener('load', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             GameScreen.draw();
-           
+            bgMusic.loopBgMusic();
         });
 
         window.addEventListener('resize', (e) => {
