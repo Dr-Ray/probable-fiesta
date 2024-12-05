@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ce8a1b;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d9a425;
+            transform: translateY(-3px);
+        }
+
+        .thumb {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .thumb-active {
+            width: 2.5rem
+        }
+    </style>
+</head>
+<body>
+    <div class='px-4 flex flex-row justify-between items-center mb-5 py-5'>
+        <a href="/">Home</a>
+        <h1 class='text-center text-xl font-semibold'>Games</h1>
+        <div></div>
+      </div>
+      <a href="./whackamole/" class='flex flex-row gap-4 md:w-[600px] px-4'>
+        <div class='rounded-lg h-[200px] md:h-[300px] w-1/2 md:w-[400px] bg-purple-500 overflow-hidden '>
+          <img alt='' src='/images/whac-a-mole.gif' class='h-full md:h-auto w-full object-cover' />
+        </div>
+        <div>
+          <p class='text-sm font-medium'>Game of the week</p>
+          <h2 class='my-6 font-bold text-2xl'>Whack a mole</h2>
+          <p class='text-sm font-medium mb-4'>Game shackles</p>
+          <button class='rounded-full bg-green-800 text-white font-semibold px-10 py-1'>Play</button>
+        </div>
+      </a>
+
+      <div class='px-4 w-full'>
+        <div class='my-6 h-60 w-full rounded-lg bg-black'>Banner (Advert)</div>
+      </div>
+
+      <div>
+        <h2 class='font-bold px-4 mb-4'>Top three games</h2>
+        <a href="/games/pacman" class='flex flex-row gap-4 md:w-[600px] px-4 mb-4'>
+          <div class='rounded-lg h-[200px] md:h-60 w-2/3 md:w-[400px] bg-purple-500 overflow-hidden'>
+            <img alt='' src='/images/giphy.gif' class='h-full md:h-auto w-full object-cover' />
+          </div>
+          <div>
+            <p class='text-sm font-medium'>Featured Game</p>
+            <h2 class='my-2 font-bold text-lg'>Pacman</h2>
+            <p class='text-sm font-medium mb-2'>Game shackles</p>
+            <button class='rounded-lg border border-green-800 text-green-800 font-semibold px-10 py-1'>Play</button>
+          </div>
+        </a>
+        <a href="./whackamole" class='flex flex-row gap-4 md:w-[600px] px-4 mb-4'>
+          <div class='rounded-lg h-[200px] md:h-h-60 w-2/3 md:w-[400px] bg-purple-500 overflow-hidden'>
+            <img alt='' src='/images/whac-a-mole.gif' class='h-full md:h-auto w-full object-cover' />
+          </div>
+          <div>
+            <p class='text-sm font-medium'>Featured Game</p>
+            <h2 class='my-2 font-bold text-lg'>Whack a mole</h2>
+            <p class='text-sm font-medium mb-2'>Game shackles</p>
+            <button class='rounded-lg border border-green-800 text-green-800 font-semibold px-10 py-1'>Play</button>
+          </div>
+        </a>
+        <a href="/games/jumpingjack" class='flex flex-row gap-4 md:w-[600px] px-4 mb-4'>
+          <div class='rounded-lg h-[200px] md:h-h-60 w-2/3 md:w-[400px] bg-purple-500 overflow-hidden'>
+            <img alt='' src='/images/giphy1.gif' class='h-full md:h-auto w-full object-cover' />
+          </div>
+          <div>
+            <p class='text-sm font-medium'>Featured Game</p>
+            <h2 class='my-2 font-bold text-lg'>Jumping Jacks</h2>
+            <p class='text-sm font-medium mb-2'>Game shackles</p>
+            <button class='rounded-lg border border-green-800 text-green-800 font-semibold px-10 py-1'>Play</button>
+          </div>
+        </a>
+      </div>
+
+      <div>
+        <h1 class='font-bold text-xl px-4 mt-8 mb-4'>Mini Games</h1>
+        <div class='px-4 w-full flex flex-row gap-2 overflow-auto'>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover' />
+            <p class='text-sm font-medium'>Pacman</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+          <img alt='' src='/images/whac-a-mole.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Whack a mole</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Jumping jack</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy1.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Frey</p>
+          </a>
+        </div>
+        <div class='px-4 w-full flex flex-row gap-2 overflow-auto'>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Pacman</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/whac-a-mole.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Whack a mole</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy1.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Jumping jack</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Frey</p>
+          </a>
+        </div>
+        <div class='px-4 w-full flex flex-row gap-2 overflow-auto'>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy1.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Pacman</p>
+          </a>
+          <div class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/whac-a-mole.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Whack a mole</p>
+          </div>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Jumping jack</p>
+          </a>
+          <a href="/#" class='flex flex-col gap-2 mb-4'>
+            <img alt='' src='/images/giphy.gif' class='rounded-lg max-h-[150px] md:h-h-60 min-w-[200px] bg-purple-500 overflow-hidden md:h-auto object-cover'/>
+            <p class='text-sm font-medium'>Frey</p>
+          </a>
+        </div>
+      </div>
+</body>
+</html>

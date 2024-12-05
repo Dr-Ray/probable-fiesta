@@ -1,456 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-    <script src="./jquery3.6.min.js"></script>
-    <!-- <script src="./splide.min.js"></script> -->
-    <!-- <script src="./splide.css"></script> -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ce8a1b;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
         }
 
-        .r-app {
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            position: relative;
+        .btn:hover {
+            background-color: #d9a425;
+            transform: translateY(-3px);
         }
 
-        .modal {
-            position: absolute;
-            height: 100%;
-            background-color: rgba(0, 0, 0, .75);
-            width: 100%;
-            top: -800px;
-            left: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            z-index: -1;
-            opacity: 0;
+        .thumb {
+            width: 2.5rem;
+            height: 2.5rem;
         }
 
-        .modal-active {
-            top: 0;
-            z-index: 99;
-            opacity: 1;
-        }
-
-        .gamePopUpModal {}
-
-        .contestModal {}
-
-        .settingsModal {}
-
-        .exitModal {}
-
-        input[type='checkbox'] {
-            appearance: none;
-            box-sizing: border-box;
-            width: 20px;
-            height: 20px;
-            padding: 0;
-            border: 2px solid black;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        .slider::before {
-            position: absolute;
-            content: '';
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        input:checked+.slider {
-            background-color: #2196F3;
-        }
-
-        input:focus+.slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked+.slider::before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round::before {
-            border-radius: 50%;
-        }
-
-        button {
-            cursor: pointer;
-        }
-        .gameAssets {
-            display: none;
+        .thumb-active {
+            width: 2.5rem
         }
     </style>
 </head>
-
 <body>
-    <div class="r-app">
-        <div class="preloader">
-            <div class="preloader-item">
+    <header class='relative'>
+        <nav class='h-20 bg-transparent overflow-hidden flex flex-row justify-between items-center absolute w-full px-2 top-0'>
+            <div class='text-3xl font-bold'>
+                DG
+            </div>
+            <ul class='md:flex md:flex-row gap-2 hidden'>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Play now</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Design</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Store</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Join the Community</a>
+                </li>
+                <li>
+                    <a href='games.html' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Games</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Language</a>
+                </li>
+            </ul>
+            <div class='font-bold cursor-pointer text-3xl md:hidden' id="openbar">
+                &#9776;
+            </div>
+        </nav>
 
-            </div>
-        </div>
-        <div class="icons"
-            style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;top: 10px;padding:0 10px;">
-            <div class=""
-                style="width: 100%;background-color: #fff; display: flex;align-items: center;gap: 1rem;height: 35px;top: 10px;padding:0 10px;width: 300px;margin: 0 auto;border-radius: 50px;">
-                <!-- <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
-                <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
-                <img src="./item_life.png" style="height: 35px; width: 80px;" alt=""> -->
-            </div>
-            <div class="">
-                <img src="./button_settings.png" id="openSettingsModal" alt="" style="width: 40px;height: 40px;">
-            </div>
-        </div>
-        <canvas id="canvas"></canvas>
-        <div class="icons"
-            style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;bottom: 10px;padding:0 10px;">
-            <div class=""
-                style="display: flex;align-items: center;overflow-x: auto;gap: 1rem;height: 50px;bottom: 10px;padding:0 10px;">
-                <!-- <div class="icon" style="width: 40px;height: 40px;background-color: aqua;"></div> -->
-                <img src="./menubutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="openActivityBar">
-            </div>
-            <div class="">
-                <img src="./playbutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="openGameBar">
-            </div>
-        </div>
-        <div class="modal" id="contestModal">
-            <button class="closeModalContest"
-                style="border: none; position: fixed;top: 0;right: 0; font-size: larger;height: 40px;width: 40px; border-radius: 100%;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
-                <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="closeModalContest">
-            </button>
-            <section class="splide" aria-label="">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide">
-                            <div class=""
-                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
-                                <div class="top"
-                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
-                                        Beach
-                                    </div>
-                                </div>
-                                <div class="ContestBody">
-                                    <img src="./beach-sheet0.png" style="width: 100%;height: auto;" alt="">
-                                </div>
-                                <div class="foot"
-                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
-                                    <div class="" style="width: 100%;">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
-                                        eius deleniti, ipsum aut quibusdam,
-                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
-                                    </div>
-                                    <button class="" type="button" style="border: none;" id="beachScreen">
-                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class=""
-                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
-                                <div class="top"
-                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
-                                        Travel
-                                    </div>
-                                </div>
-                                <div class="ContestBody">
-                                    <img src="./bluestage-sheet0.png" style="width: 100%;height: auto;" alt="">
-                                </div>
-                                <div class="foot"
-                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
-                                    <div class="" style="width: 100%;">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
-                                        eius deleniti, ipsum aut quibusdam,
-                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
-                                    </div>
-                                    <button class="" type="button" style="border: none;" id="travelScreen"
-                                        data-target="">
-                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class=""
-                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
-                                <div class="top"
-                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
-                                        Activity
-                                    </div>
-                                </div>
-                                <div class="ContestBody">
-                                    <img src="./background.png" style="width: 100%;height: auto;" alt="">
-                                </div>
-                                <div class="foot"
-                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
-                                    <div class="" style="width: 100%;">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
-                                        eius deleniti, ipsum aut quibusdam,
-                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
-                                    </div>
-                                    <button class="" type="button" style="border: none;" id="activityScreen">
-                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+        <div style="background-image: url('/images/pexels-apasaric-618079.jpg')" class='overflow-hidden banner bg-center min-h-screen absoute top-0 w-full pt-24 pb-4 px-2 bg-no-repeat bg-cover flex flex-col justify-center md:flex-row'>
+            <div class='md:w-1/2 flex flex-col py-2'>
+                <div class='mb-8'>
+                    <h1 class='font-bold text-4xl text-center md:text-left md:text-6xl lg:text-7xl mb-10' data-aos="slide-left">BEST DREAM LIFE</h1>
+                    <h3 class='font-bold text-2xl text-center  md:text-3xl lg:text-4xl ' data-aos="slide-left">Meet Our Avatars</h3>
                 </div>
-            </section>
-        </div>
-        <div class="modal" id="exitModal">
-            <div class=""
-                style="height: 300px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;display: flex;flex-direction: column;">
-                <div class="top"
-                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
-                        Exit game !
-                    </div>
-                    <button class="closeModal"
-                        style="font-size: larger;border-radius: 50%; height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
-                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
-                    </button>
-                </div>
-                <div class="body" style="flex:1;display: flex;align-items: center;">
-                    <div class=""
-                        style="padding: 10px; display: flex;gap: 1rem; justify-content: center;gap: 2rem; align-items: center;margin: 10px 0;height: 150px;margin: auto 0;width: 100%;">
-                        <button class="" type="button" style="border: none;display: block;" alt="yes"
-                            aria-label="exit-yes">
-                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
-                        </button><br>
-                        <button class="" type="button" style="border: none;display: block;" alt="no"
-                            aria-label="exit-no">
-                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
-                        </button>
-                    </div>
+                <div class='text-center'>
+                    <a href='register.html' class='block btn mt-10 w-44 mx-auto' type='button'>Play</a>
                 </div>
             </div>
-        </div>
-        <div class="modal" style="padding: 10px 0;height: 100%;overflow-y: auto;" id="settingsModal">
-            <div class=""
-                style="height: 500px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;">
-                <div class="top"
-                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                    <div class="" style="font-weight: bold;font-size: x-large; text-align: center;width: 100%;">
-                        Option
-                    </div>
-                    <button class="closeModal" id="closeSettingsModal"
-                        style="border-radius: 50%; font-size: larger;height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
-                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
-                    </button>
-                </div>
-                <div class="body">
-                    <div class=""
-                        style="padding: 15px 0; display: flex;gap: 2rem; justify-content: center;align-items: center;">
-                        <h2>Sound</h2>
-                        <label class="switch">
-                            <input type="checkbox" id="">
-                            <span class="slider round"></span>
-                        </label>
-                    </div><br>
-                    <div class=""
-                        style="padding: 15px 0; display: flex;gap: 2rem; justify-content: center;align-items: center;">
-                        <h2>Music</h2>
-                        <label class="switch">
-                            <input type="checkbox" id="" checked>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
 
-                    <div class=""
-                        style="padding: 10px; display: flex;gap: 1rem; justify-content: center;align-items: center;margin: 10px 0;">
-                        <button class="" type="button" style="border: none;display: block;width: 200px;">
-                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
-                        </button><br>
-                        <button class="" type="button" style="border: none;display: block;width: 200px;">
-                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
-                        </button>
+            <div class='h-full md:w-1/2'>
+                <div class="relative w-full" style= "height: 500px" >
+                    <div class="content-body mb-2 md:w-[600px] md:absolute md:bottom-0">
+                        <div class="w-full mx-auto relative h-96">
+                            <img src="./images/Home1.1.png" class="absolute min-h-40 bottom-0 md:max-h-96 left-[-150px] md:left-[0px]" alt="" />
+                            <img src="./images/Home1.3.png" class="absolute min-h-40 bottom-0 md:max-h-96 left-[-90px] md:left-[-80px]" alt="" />
+                            <img src="./images/Home page 3.png" class="absolute min-h-40 bottom-0 md:max-h-96 left-[-30px] md:left-[-150px]" alt="" />
+                            <img src="./images/Home1.5.png" class="absolute min-h-40 bottom-0 md:max-h-96 right-[-30px] md:right-[-100px]" alt="" />
+                            <img src="./images/home page 2.png" class="absolute min-h-40 bottom-0 md:max-h-96 right-[-80px] md:right-[-200px]" alt="" />
+                            <img src="./images/Glamour Girl (6)300dpi.png" class="absolute min-h-40 bottom-0 md:max-h-96 right-[-130px] md:right-[0px]" alt="" />
+                        </div>
                     </div>
-
-                    <button class="" type="button" style="border: none;display: block;width: 400px;">
-                        <img src="./button_confirm.png" style="width: auto;height: 80px;" alt="">
-                    </button><br>
-                    <button class="" type="button" style="border: none;display: block;width: 400px;">
-                        <img src="./button_exit.png" style="width: auto;height: 80px;" alt="">
-                    </button>
                 </div>
             </div>
         </div>
-        <div class="modal" id="gamePopUpModal">
-            <div class=""
-                style="height: 300px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;">
-                <div class="top"
-                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
-                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
-                        Select Game
-                    </div>
-                    <button class="closeModal" data-target="gamePopUpModal" id="togglegamePopUp"
-                        style="font-size: larger;border-radius: 50%;height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
-                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
-                    </button>
-                </div>
-                <div class="body" style="padding: 10px;">
-                    <ul class="" style="display: flex;gap: 1rem;overflow-x: auto;overflow-y: hidden;">
-                        <li>
-                            <a href="./whackamole/" class="ContestBody" style="height: 200px;overflow: hidden;">
-                                <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="foot"></div>
+    </header>
+    <div id="sidebar"
+        class="md:hidden overflow-hidden visible z-50 h-full fixed w-72 top-0 right-[-300px] transition-all text-white bg-slate-950"
+        ref={sidebar}>
+        <ul class="h-full px-3 flex flex-col gap-4 py-4">
+            <div class="mb-10">
+                <h3 class="text-2xl font-bold">DreamGirls</h3>
+            </div>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">PLay now</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Design</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Store</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Join the Community</a>
+            </li>
+            <li>
+                <a to="/games" class="font-bold text-xl hover:text-blue-500">Games</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl">Language</a>
+            </li>
+        </ul>
+    </div>
+    <div class="fixed z-10 h-0 w-0 top-0" id="close"></div>
+   
+
+    <!-- Section main body -->
+    <div>
+        <div class='h-[700px] md:h-[600px] flex flex-col md:flex-col lg:flex-row gap-2 py-4 px-4 items-center bg-purple-600 bg-no-repeat bg-contain md:bg-cover'>
+            <div class='w-full md:w-[600px] mx-auto h-80 md:h-[400px] rounded-lg p-2'>
+                <iframe class='w-full h-full rounded-lg'
+                    title='embeded image'
+                    src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0">
+                </iframe>
+            </div>
+            <div class='w-full md:w-[600px] mx-auto lg:w-1/2 rounded-lg px-2'>
+                <h2 class="uppercase text-4xl font-bold">
+                    Step into <br /> the Future of<br /> Fashion.
+                </h2>
+                <p class="text-lg my-6 font-medium">
+                    Create, Customize, and Conquer in a World Where Your Style Defines You. Begin Your Dream
+                    Journey Now.
+                </p>
+                <button class="border-0 font-bold text-2xl text-center p-4 transition-all linear delay-200 rounded-lg bg-yellow-300 w-full md:w-60">
+                    Start your journey
+                </button>
             </div>
         </div>
-
-        <div class="gameAssets">
-            <img src="./render.png" id="interiorScene" alt="">
-            <img src="./interior1.jpg" id="interiorScene2" alt="">
-            <img src="./beach-sheet0.png" id="beachScene" alt="">
-            <img src="./bluestage-sheet0.png" id="stageScene" alt="">
-            <img src="./background.png" id="outDoorStageScene" alt="">
+        <div class='flex flex-col md:flex-col lg:flex-row gap-2 p-3 bg-gray-500' style= "background-color: #ffb6c1" >
+            <div class="w-full">
+                <div class="w-full">
+                    <h3 class="mt-8 text-4xl text-center font-bold">Discover the Latest<br /> Trends & Top Creations</h3>
+                    <p class="text-lg text-center mt-2">
+                        Explore fresh styles and exclusive collections, designed for<br /> the fashion-forward avatar.
+                    </p>
+                </div>
+                <div class="w-full md:w-4/5 mx-auto my-6 md:flex md:flex-row gap-3 md:justify-between">
+                    <div class="rounded-lg text-center md:w-1/3 shadow-lg py-2">
+                        <div class="h-56 bg-white-400 overflow-hidden">
+                            <img src="./images/WhatsApp_Image_2024-07-20_at_07.29.43__8_-removebg-preview.png" class="h-56 w-full object-cover object-top" alt="" />
+                        </div>
+                        <div class="">
+                            <h3 class="text-lg font-bold mt-3">Neon Nights Collection</h3>
+                            <p class="text-xs text-center">
+                                Sleek, sharp, and modern. Cyber Chic is the go-to look <br /> for avatars aiming to blend
+                                elegance
+                                with a tech-inspired edge.
+                            </p>
+                        </div>
+                        <!-- <button class="mt-2 px-3 py-2 transition linear delay-150 rounded-xl text-white text-base">
+                            Shop cool fashion!
+                        </button>-->
+                    </div>
+                    <div class="rounded-lg text-center md:w-1/3 shadow-lg py-2 my-4 md:my-0">
+                        <div class="h-56 bg-white-400 overflow-hidden">
+                            <img src="./images/WhatsApp_Image_2024-07-20_at_07.29.43__7_-removebg-preview.png" class="h-56 w-full object-cover object-top" alt="" />
+                        </div>
+                        <div class="">
+                            <h3 class="text-lg font-bold mt-3">Illuminate</h3>
+                            <p class="text-xs text-center">
+                                Sleek, sharp, and modern. Cyber Chic is the go-to look <br /> for avatars aiming to blend
+                                elegance
+                                with a tech-inspired edge.
+                            </p>
+                        </div>
+                        <!-- <button class="mt-2 px-3 py-2 transition linear delay-150 rounded-xl text-white text-base">
+                            Shop cool fashion!
+                        </button> -->
+                    </div>
+                    <div class="rounded-lg text-center md:w-1/3 shadow-lg py-2">
+                        <div class="h-56 bg-white-400 overflow-hidden">
+                            <img src="./images/WhatsApp_Image_2024-07-20_at_07.29.43__6_-removebg-preview.png" class="h-56 w-full object-cover object-top" alt="" />
+                        </div>
+                        <div class="">
+                            <h3 class="text-lg font-bold mt-3">Cyber Chic</h3>
+                            <p class="text-xs text-center">
+                                Sleek, sharp, and modern. Cyber Chic is the go-to look <br /> for avatars aiming to blend
+                                elegance
+                                with a tech-inspired edge.
+                            </p>
+                        </div>
+                        <!-- <button class="mt-2 px-3 py-2 transition linear delay-150 rounded-xl text-white text-base">
+                            Shop cool fashion!
+                        </button> -->
+                    </div>
+                </div>
+                <!-- <div class="text-center my-4">
+                    <button class="text-white rounded-xl px-3 py-2">
+                        See more
+                    </button>
+                </div> -->
+            </div>
+        </div>
+        <div class='h-[500px] mx-auto flex flex-col md:flex-col lg:flex-row gap-2 py-3 px-4 items-center bg-purple-600 ' style=>
+            <div class='w-full lg:w-1/2 h-[300px] md:h-[250px] mx-auto rounded-lg px-4 py-5' style="background-image:linear-gradient(rgba(147 51 234 / var(--tw-bg-opacity)),(147 51 234 / var(--tw-bg-opacity)))">
+                <h2 class="uppercase text-4xl font-bold text-white">
+                    Join our community
+                </h2>
+                <p class='my-10 font-semibold text-slate-200'>
+                    Discuss everything and anything with people on the platform
+                </p>
+                <a href='/#'>
+                    Join now
+                </a>
+            </div>
+            <div class='w-full lg:w-1/2 h-[300px] md:h-[250px] mx-auto rounded-lg px-2 bg-purple-500'>
+                <h2 class="uppercase text-4xl font-bold text-white">
+                    Need help.
+                </h2>
+                <p class='my-10 font-semibold text-slate-200'>
+                    Get answers and help from our customer service
+                </p>
+                <a href='/#'>
+                    Contact us
+                </a>
+            </div>
         </div>
     </div>
+
+    <!-- Section Footer -->
+    <div class='min-h-[650px] bg-slate-800 px-4 pt-12 pb-4' style=" background-color: #2C2C34" >
+        <h1 class='my-5 text-5xl font-bold text-white'>DreamGirls</h1>
+        <div class='pt-11'>
+            <ul class='flex flex-row flex-wrap gap-2'>
+                <li class='w-1/3 md:w-1/4 mb-8'>
+                    <a href='/#' class='text-white font-bold hover:text-purple-600 transition-colors p-2 text-xl'>Play now</a>
+                </li>
+                <li class='w-1/3 md:w-1/4 mb-8'>
+                    <a href='/#' class='text-white font-bold hover:text-purple-600 transition-colors p-2 text-xl'>Design</a>
+                </li>
+                <li class='w-1/3 md:w-1/4 mb-8'>
+                    <a href='/#' class='text-white font-bold hover:text-purple-600 transition-colors p-2 text-xl'>Store</a>
+                </li>
+                <li class='w-1/3 md:w-1/4 mb-8'>
+                    <a href='/#' class='text-white font-bold hover:text-purple-600 transition-colors p-2 text-xl'>Community</a>
+                </li>
+                <li class='w-1/3 md:w-1/4 mb-8'>
+                    <a href='/games' class='text-white font-bold hover:text-purple-600 transition-colors p-2 text-xl'>Games</a>
+                </li>
+            </ul>
+        </div>
+        <div class='w-full'>
+            <ul class="flex flex-row gap-4">
+                <li class="">
+                    <Link class="" to="/#"><i class="fab fa-1x fa-facebook-f text-blue-400"></i></a>
+                </li>
+                <li class="">
+                    <Link class="" to="/#"><i class="fab fa-1x fa-twitter text-blue-400"></i></a>
+                </li>
+                <li class="">
+                    <Link class="" to="/#"><i class="fab fa-1x fa-linkedin-in text-blue-400"></i></a>
+                </li>
+                <li class="">
+                    <Link class="" to="/#"><i class="fab fa-1x fa-instagram text-orange-400"></i></a>
+                </li>
+                <li class="">
+                    <Link class="" to="/#"><i class="fab fa-1x fa-youtube text-red-400"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class='mt-28 w-full'>
+            <p class='font-semibold text-white md:w-1/2 mb-12'>
+                © 2024 dreamgirls. All Rights Reserved.
+                lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set 
+                lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set 
+                lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set 
+                lorem ipsum dolor set lorem ipsum dolor set lorem ipsum dolor set 
+            </p>
+            <ul class='flex flex-row flex-wrap gap-4'>
+                <li>
+                    <a href='#' class='text-white font-bold hover:text-purple-600 transition-colors'>Play now</a>
+                </li>
+                <li>
+                    <a href='#' class='text-white font-bold hover:text-purple-600 transition-colors'>Design</a>
+                </li>
+                <li>
+                    <a href='#' class='text-white font-bold hover:text-purple-600 transition-colors'>Store</a>
+                </li>
+                <li>
+                    <a href='#' class='text-white font-bold hover:text-purple-600 transition-colors'>Community</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <script>
-        $('#openGameBar').on('click', (e) => {
-            $('#gamePopUpModal').toggleClass('modal-active')
-        });
-        $('#togglegamePopUp').on('click', (e) => {
-            $('#gamePopUpModal').toggleClass('modal-active')
-        });
+        let sidebar = document.querySelector('#sidebar');
+        let openbar = document.querySelector('#openbar');
+        let closebar = document.querySelector('#close');
 
-        $('#openActivityBar').on('click', (e) => {
-            $('#contestModal').toggleClass('modal-active');
-        });
-        $('#closeModalContest').on('click', (e) => {
-            $('#contestModal').toggleClass('modal-active')
-        });
+        openbar.onclick = (e) => {
+            sidebar.classList.remove('right-[-400px]');
+            closebar.classList.remove('h-0', 'w-0');
 
-        $('#openSettingsModal').on('click', (e) => {
-            $('#settingsModal').toggleClass('modal-active')
-        });
-        $('#closeSettingsModal').on('click', (e) => {
-            $('#settingsModal').toggleClass('modal-active')
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var splide = new Splide('.splide');
-            splide.mount();
-        });
-    </script>
-    <script>
-        const canvas = document.querySelector('#canvas');
-        const ctx = canvas.getContext('2d');
-        let canvasLeftOffset;
-
-        class CanvasScreen {
-            constructor(canvas, context, img) {
-                this.canvas = canvas;
-                this.ctx = context;
-                this.img = img;
-            }
-
-            draw() {
-                this.ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
-            }
-
-            drawNewScreen(img) {
-                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
-            }
-
-            resize(width, height) {
-                this.canvas.width = width;
-                this.canvas.height = height;
-                // canvasLeftOffset = (canvas.width - 474) * 0.5;
-                this.draw();
-            }
+            sidebar.classList.add('right-[0]');
+            closebar.classList.add('h-full', 'w-full');
         }
+        closebar.onclick = (e) => {
+            e.target.classList.remove('h-full', 'w-full');
+            e.target.classList.add('h-0', 'w-0');
 
-        const GameScreen = new CanvasScreen(canvas, ctx, document.querySelector('#interiorScene'));
-
-        window.addEventListener('load', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            GameScreen.draw();
-        });
-
-        window.addEventListener('resize', (e) => {
-            GameScreen.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
-        });
-
-        function loadGameAssets() {}
-
-        function newScreen(id, modal='') {
-            const img = document.querySelector(`#${id}`);
-            if(modal !='') $(`#${modal}`).toggleClass('modal-active');
-            GameScreen.drawNewScreen(img);
+            sidebar.classList.remove('right-[0]');
+            sidebar.classList.add('right-[-400px]');
         }
-
-        $('#beachScreen').on('click', (e) => {
-            newScreen('beachScene', 'contestModal');
-        });
-        $('#travelScreen').on('click', (e) => {
-            newScreen('stageScene', 'contestModal');
-        });
-        $('#activityScreen').on('click', (e) => {
-            newScreen('outDoorStageScene', 'contestModal');
-        });
     </script>
 </body>
-
 </html>

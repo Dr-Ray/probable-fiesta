@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <style>
+        /* .sidebar {
+            display: flex;
+            flex-direction: column;
+            background-color: #151617;
+            width: 220px;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            right: -200px;
+            z-index: 99;
+            transition: all .3s linear;
+        }
+
+        .sidebar-open {
+            right: 0 !important;
+        } */
+
+        /* Large devices (Tablets and Laptops) */
+        /* @media screen and (min-width:600px) {
+            .hidden-ls {
+                display: none;
+            }
+
+            .w-700 {
+                width: 700px !important;
+            }
+
+            .w-600 {
+                width: 600px !important;
+            }
+
+            .sidebar {
+                flex-direction: row;
+                background-color: transparent;
+                right: 0px;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 10px;
+                padding-right: 10px;
+            }
+
+            .overlay-close {
+                z-index: -1;
+                visibility: hidden;
+            }
+
+            .d-row-col {
+                display: flex;
+                flex-direction: row !important;
+            }
+        } */
+
+        .overlay-close {
+            background-color: rgba(0, 0, 0, .1);
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            visibility: hidden;
+            top: 0;
+            z-index: -1;
+        }
+
+        .ovr-open {
+            z-index: 3;
+            visibility: visible;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ce8a1b;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d9a425;
+            transform: translateY(-3px);
+        }
+
+        .thumb {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .thumb-active {
+            width: 2.5rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class='relative'>
+        <nav class='h-20 bg-transparent overflow-hidden flex flex-row justify-between items-center absolute w-full px-2 top-0'>
+            <div class='text-3xl font-bold'>
+                DG
+            </div>
+            <ul class='md:flex md:flex-row gap-2 hidden'>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Play now</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Design</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Store</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Join the
+                        Community</a>
+                </li>
+                <li>
+                    <a href='/games' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Games</a>
+                </li>
+                <li>
+                    <a href='/#' class='font-bold hover:text-purple-600 transition-colors p-2 rounded-3xl'>Language</a>
+                </li>
+            </ul>
+            <div class='font-bold cursor-pointer text-3xl md:hidden' id="openbar">
+                &#9776;
+            </div>
+        </nav>
+        <div style="background-image:linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./images/pexels-apasaric-618079.jpg')"
+            class='overflow-hidden banner bg-center min-h-screen absoute top-0 w-full pt-16 pb-4 px-2 bg-no-repeat bg-cover flex flex-col justify-center md:flex-row'>
+            <div class='flex flex-col md:flex-row md:w-[800px]'>
+                <div class='md:w-1/2 flex flex-col py-2'>
+                    <div class='mb-2'>
+                        <h3 class='font-bold text-2xl text-center  md:text-3xl lg:text-4xl ' data-aos="slide-left">
+                            Select your <br />Avatar</h3>
+                    </div>
+                    <div class="relative w-full" style="height: 400px;">
+                        <div class="content-body mb-2">
+                            <div class="w-full mx-auto relative h-96">
+                                <img src="./images/Home1.1.png" class="absolute min-h-40  bottom-0 md:max-h-96"
+                                    alt="avatar" />
+                            </div>
+                            <div
+                                class='py-2 mb-4 sld-nav mx-auto w-full md:w-56 flex gap-3 justify-center md:justify-start overflow-x-auto overflow-y-hidden'>
+                                <img src="./images/ben.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                                <img src="./images/eth.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                                <img src="./images/sop.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                                <img src="./images/ben.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                                <img src="./images/eth.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                                <img src="./images/sop.png"
+                                    class='thumb rounded-full hover:border-l-gray-950 cursor-pointer' alt=""
+                                    onClick="(e) => changeAvatar(e, item)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='h-full md:w-1/2'>
+                    <div class="w-full md:max-w-xs py-4">
+                        <form class="bg-whte shadow-lg rounded px-8 pt-6 pb-8 mb-4" id="handleSubmit">
+                            <div class="mb-4">
+                                <label class="block text-black text-sm font-bold mb-2" for="username">
+                                    Username
+                                </label>
+                                <input
+                                    class="shadow border border-red-500  rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                                    onChange="(e) => setName(e.target.value)" id="name" type="text"
+                                    placeholder="name" />
+                                <!-- <p class="text-red-500 text-xs italic">Please enter a username.</p> -->
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-black text-sm font-bold mb-2" for="age">
+                                    Age
+                                </label>
+                                <input
+                                    class="shadow border border-red-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                                    onChange="(e) => setAge(e.target.value)" id="age" type="number" placeholder="Age" />
+                                <!-- <p class="text-red-500 text-xs italic">Please enter your age.</p> -->
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-black text-sm font-bold mb-2" for="password">
+                                    Password
+                                </label>
+                                <input
+                                    class="shadow border border-red-500 rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                                    onChange="(e) => setPassword(e.target.value)" id="password" type="password"
+                                    placeholder="******************" />
+                                <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <button
+                                    id="login"
+                                    class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    type="submit">
+                                    Play now!
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <a href='index.html' class='font-bold text-black'>Go back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sidebar"
+        class="md:hidden overflow-hidden visible z-50 h-full fixed w-72 top-0 right-[-300px] transition-all text-white bg-slate-950"
+        ref={sidebar}>
+        <ul class="h-full px-3 flex flex-col gap-4 py-4">
+            <div class="mb-10">
+                <h3 class="text-2xl font-bold">DreamGirls</h3>
+            </div>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">PLay now</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Design</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Store</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl hover:text-blue-500">Join the Community</a>
+            </li>
+            <li>
+                <a to="/games" class="font-bold text-xl hover:text-blue-500">Games</a>
+            </li>
+            <li>
+                <a to="/#" class="font-bold text-xl">Language</a>
+            </li>
+        </ul>
+    </div>
+    <div class="fixed z-10 h-0 w-0 top-0" id="close"></div>
+    <script>
+        let sidebar = document.querySelector('#sidebar');
+        let openbar = document.querySelector('#openbar');
+        let closebar = document.querySelector('#close');
+
+        openbar.onclick = (e) => {
+            sidebar.classList.remove('right-[-400px]');
+            closebar.classList.remove('h-0', 'w-0');
+
+            sidebar.classList.add('right-[0]');
+            closebar.classList.add('h-full', 'w-full');
+        }
+        closebar.onclick = (e) => {
+            e.target.classList.remove('h-full', 'w-full');
+            e.target.classList.add('h-0', 'w-0');
+
+            sidebar.classList.remove('right-[0]');
+            sidebar.classList.add('right-[-400px]');
+        }
+
+        $('#handleSubmit').on('submit', (e) => {
+            e.preventDefault();
+            $('#login').html(`<i class="fa fa-spin fa-gear"></i>`);
+            setTimeout(() => {
+                window.location = "./dashboard/index.html";
+            }, 3000);
+        });
+    </script>
+</body>
+
+</html>

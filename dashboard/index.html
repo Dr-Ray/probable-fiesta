@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <script src="./jquery3.6.min.js"></script>
+    <!-- <script src="./splide.min.js"></script> -->
+    <!-- <script src="./splide.css"></script> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .r-app {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .modal {
+            position: absolute;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .75);
+            width: 100%;
+            top: -800px;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .modal-active {
+            top: 0;
+            z-index: 99;
+            opacity: 1;
+        }
+
+        .gamePopUpModal {}
+
+        .contestModal {}
+
+        .settingsModal {}
+
+        .exitModal {}
+
+        input[type='checkbox'] {
+            appearance: none;
+            box-sizing: border-box;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border: 2px solid black;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider::before {
+            position: absolute;
+            content: '';
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider::before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round::before {
+            border-radius: 50%;
+        }
+
+        button {
+            cursor: pointer;
+        }
+        .gameAssets {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="r-app">
+        <div class="preloader">
+            <div class="preloader-item">
+
+            </div>
+        </div>
+        <div class="icons"
+            style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;top: 10px;padding:0 10px;">
+            <div class=""
+                style="width: 100%;background-color: #fff; display: flex;align-items: center;gap: 1rem;height: 35px;top: 10px;padding:0 10px;width: 300px;margin: 0 auto;border-radius: 50px;">
+                <!-- <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
+                <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
+                <img src="./item_life.png" style="height: 35px; width: 80px;" alt=""> -->
+            </div>
+            <div class="">
+                <img src="./button_settings.png" id="openSettingsModal" alt="" style="width: 40px;height: 40px;">
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="icons"
+            style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;bottom: 10px;padding:0 10px;">
+            <div class=""
+                style="display: flex;align-items: center;overflow-x: auto;gap: 1rem;height: 50px;bottom: 10px;padding:0 10px;">
+                <!-- <div class="icon" style="width: 40px;height: 40px;background-color: aqua;"></div> -->
+                <img src="./menubutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="openActivityBar">
+            </div>
+            <div class="">
+                <img src="./playbutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="openGameBar">
+            </div>
+        </div>
+        <div class="modal" id="contestModal">
+            <button class="closeModalContest"
+                style="border: none; position: fixed;top: 0;right: 0; font-size: larger;height: 40px;width: 40px; border-radius: 100%;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
+                <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;" id="closeModalContest">
+            </button>
+            <section class="splide" aria-label="">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class=""
+                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
+                                <div class="top"
+                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
+                                        Beach
+                                    </div>
+                                </div>
+                                <div class="ContestBody">
+                                    <img src="./beach-sheet0.png" style="width: 100%;height: auto;" alt="">
+                                </div>
+                                <div class="foot"
+                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
+                                    <div class="" style="width: 100%;">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
+                                        eius deleniti, ipsum aut quibusdam,
+                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
+                                    </div>
+                                    <button class="" type="button" style="border: none;" id="beachScreen">
+                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class=""
+                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
+                                <div class="top"
+                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
+                                        Travel
+                                    </div>
+                                </div>
+                                <div class="ContestBody">
+                                    <img src="./bluestage-sheet0.png" style="width: 100%;height: auto;" alt="">
+                                </div>
+                                <div class="foot"
+                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
+                                    <div class="" style="width: 100%;">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
+                                        eius deleniti, ipsum aut quibusdam,
+                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
+                                    </div>
+                                    <button class="" type="button" style="border: none;" id="travelScreen"
+                                        data-target="">
+                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class=""
+                                style="height: 330px;width: 600px; background-color: white;border-radius: 10px;margin: auto;position: relative;overflow: hidden;">
+                                <div class="top"
+                                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
+                                        Activity
+                                    </div>
+                                </div>
+                                <div class="ContestBody">
+                                    <img src="./background.png" style="width: 100%;height: auto;" alt="">
+                                </div>
+                                <div class="foot"
+                                    style="padding: 5px 10px; display: flex;align-items: center; width: 100%;height: 100px;background-color: #fff;position: absolute;bottom: 0;">
+                                    <div class="" style="width: 100%;">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                        Praesentium voluptates dolores a alias natus mollitia voluptas provident iure,
+                                        eius deleniti, ipsum aut quibusdam,
+                                        voluptate illo odio consequatur atque nesciunt reprehenderit?
+                                    </div>
+                                    <button class="" type="button" style="border: none;" id="activityScreen">
+                                        <img src="./button_confirm.png" style="width: 100%;height: 50px;" alt="">
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <div class="modal" id="exitModal">
+            <div class=""
+                style="height: 300px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;display: flex;flex-direction: column;">
+                <div class="top"
+                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
+                        Exit game !
+                    </div>
+                    <button class="closeModal"
+                        style="font-size: larger;border-radius: 50%; height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
+                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
+                    </button>
+                </div>
+                <div class="body" style="flex:1;display: flex;align-items: center;">
+                    <div class=""
+                        style="padding: 10px; display: flex;gap: 1rem; justify-content: center;gap: 2rem; align-items: center;margin: 10px 0;height: 150px;margin: auto 0;width: 100%;">
+                        <button class="" type="button" style="border: none;display: block;" alt="yes"
+                            aria-label="exit-yes">
+                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
+                        </button><br>
+                        <button class="" type="button" style="border: none;display: block;" alt="no"
+                            aria-label="exit-no">
+                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" style="padding: 10px 0;height: 100%;overflow-y: auto;" id="settingsModal">
+            <div class=""
+                style="height: 500px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;">
+                <div class="top"
+                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                    <div class="" style="font-weight: bold;font-size: x-large; text-align: center;width: 100%;">
+                        Option
+                    </div>
+                    <button class="closeModal" id="closeSettingsModal"
+                        style="border-radius: 50%; font-size: larger;height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
+                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
+                    </button>
+                </div>
+                <div class="body">
+                    <div class=""
+                        style="padding: 15px 0; display: flex;gap: 2rem; justify-content: center;align-items: center;">
+                        <h2>Sound</h2>
+                        <label class="switch">
+                            <input type="checkbox" id="">
+                            <span class="slider round"></span>
+                        </label>
+                    </div><br>
+                    <div class=""
+                        style="padding: 15px 0; display: flex;gap: 2rem; justify-content: center;align-items: center;">
+                        <h2>Music</h2>
+                        <label class="switch">
+                            <input type="checkbox" id="" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class=""
+                        style="padding: 10px; display: flex;gap: 1rem; justify-content: center;align-items: center;margin: 10px 0;">
+                        <button class="" type="button" style="border: none;display: block;width: 200px;">
+                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
+                        </button><br>
+                        <button class="" type="button" style="border: none;display: block;width: 200px;">
+                            <img src="./button_confirm.png" style="width: auto;height: 60px;" alt="">
+                        </button>
+                    </div>
+
+                    <button class="" type="button" style="border: none;display: block;width: 400px;">
+                        <img src="./button_confirm.png" style="width: auto;height: 80px;" alt="">
+                    </button><br>
+                    <button class="" type="button" style="border: none;display: block;width: 400px;">
+                        <img src="./button_exit.png" style="width: auto;height: 80px;" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="gamePopUpModal">
+            <div class=""
+                style="height: 300px;width: 400px; background-color: white;border-radius: 10px;margin: auto;position: relative;">
+                <div class="top"
+                    style="padding:0 10px; height: 50px;background-color: aqua;display: flex;gap: 1rem;border-top-left-radius: 10px;border-top-right-radius: 10px;align-items: center;">
+                    <div class="" style="text-align: center;width: 100%;font-size: larger;">
+                        Select Game
+                    </div>
+                    <button class="closeModal" data-target="gamePopUpModal" id="togglegamePopUp"
+                        style="font-size: larger;border-radius: 50%;height: 40px;width: 40px;text-align: center;display: flex;justify-content: center;align-items: center;color: #fff;">
+                        <img src="./closebutton-sheet0.png" alt="" style="width: 40px;height: 40px;">
+                    </button>
+                </div>
+                <div class="body" style="padding: 10px;">
+                    <ul class="" style="display: flex;gap: 1rem;overflow-x: auto;overflow-y: hidden;">
+                        <li>
+                            <a href="./whackamole/" class="ContestBody" style="height: 200px;overflow: hidden;">
+                                <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="foot"></div>
+            </div>
+        </div>
+
+        <div class="gameAssets">
+            <img src="./render.png" id="interiorScene" alt="">
+            <img src="./interior1.jpg" id="interiorScene2" alt="">
+            <img src="./beach-sheet0.png" id="beachScene" alt="">
+            <img src="./bluestage-sheet0.png" id="stageScene" alt="">
+            <img src="./background.png" id="outDoorStageScene" alt="">
+        </div>
+    </div>
+    <script>
+        $('#openGameBar').on('click', (e) => {
+            $('#gamePopUpModal').toggleClass('modal-active')
+        });
+        $('#togglegamePopUp').on('click', (e) => {
+            $('#gamePopUpModal').toggleClass('modal-active')
+        });
+
+        $('#openActivityBar').on('click', (e) => {
+            $('#contestModal').toggleClass('modal-active');
+        });
+        $('#closeModalContest').on('click', (e) => {
+            $('#contestModal').toggleClass('modal-active')
+        });
+
+        $('#openSettingsModal').on('click', (e) => {
+            $('#settingsModal').toggleClass('modal-active')
+        });
+        $('#closeSettingsModal').on('click', (e) => {
+            $('#settingsModal').toggleClass('modal-active')
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var splide = new Splide('.splide');
+            splide.mount();
+        });
+    </script>
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext('2d');
+        let canvasLeftOffset;
+
+        class CanvasScreen {
+            constructor(canvas, context, img) {
+                this.canvas = canvas;
+                this.ctx = context;
+                this.img = img;
+            }
+
+            draw() {
+                this.ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
+            }
+
+            drawNewScreen(img) {
+                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+            }
+
+            resize(width, height) {
+                this.canvas.width = width;
+                this.canvas.height = height;
+                // canvasLeftOffset = (canvas.width - 474) * 0.5;
+                this.draw();
+            }
+        }
+
+        const GameScreen = new CanvasScreen(canvas, ctx, document.querySelector('#interiorScene'));
+
+        window.addEventListener('load', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            GameScreen.draw();
+        });
+
+        window.addEventListener('resize', (e) => {
+            GameScreen.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
+        });
+
+        function loadGameAssets() {}
+
+        function newScreen(id, modal='') {
+            const img = document.querySelector(`#${id}`);
+            if(modal !='') $(`#${modal}`).toggleClass('modal-active');
+            GameScreen.drawNewScreen(img);
+        }
+
+        $('#beachScreen').on('click', (e) => {
+            newScreen('beachScene', 'contestModal');
+        });
+        $('#travelScreen').on('click', (e) => {
+            newScreen('stageScene', 'contestModal');
+        });
+        $('#activityScreen').on('click', (e) => {
+            newScreen('outDoorStageScene', 'contestModal');
+        });
+    </script>
+</body>
+
+</html>
