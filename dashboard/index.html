@@ -12,6 +12,14 @@
     <script src="./jquery3.6.min.js"></script>
     <script src="./tour.js"></script>
     <link rel="stylesheet" href="./tour.min.css">
+
+    <!-- Tippy production file -->
+    <!-- <script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@5"></script> -->
+
+<!-- Tippy development file remove on production -->
+<script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@5/dist/tippy-bundle.iife.js"></script>
     <!-- <script src="./splide.min.js"></script> -->
     <!-- <script src="./splide.css"></script> -->
     <style>
@@ -136,24 +144,48 @@
 
 <body>
     <div class="r-app">
+        <div id="screenInfo" class="screenInfo" style="position: fixed;top: 0;left: 0;z-index: 999; display: flex;align-items: center;justify-content: center;width: 100%;height: 100vh;overflow: hidden;background-color: black;">
+            <span style="color: #fff;font-size: large;font-weight: bold;text-wrap: wrap;text-align: center;">Please rotate your mobile to portrait mode to continue</span>
+        </div>
         <div class="preloader">
             <div class="preloader-item">
 
             </div>
         </div>
-        <div class="icons"
-            style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;top: 10px;padding:0 10px;">
-            <div class=""
-                style="width: 100%;background-color: #fff; display: flex;align-items: center;gap: 1rem;height: 35px;top: 10px;padding:0 10px;width: 300px;margin: 0 auto;border-radius: 50px;">
-                <!-- <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
-                <img src="./item_life.png" style="height: 35px; width: 80px;" alt="">
-                <img src="./item_life.png" style="height: 35px; width: 80px;" alt=""> -->
+        <div class="icons" style="padding:10px; display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;top: 0px;">
+            
+            <div class="" style="display: flex;align-items: center;gap: 1rem;height: 35px;width: 400px;background-color: rgb(86 194 112);border-radius: 50px;">
+                <img src="./eth.png" style="height: 38px; width: 38px;border-radius: 50%;border:2px solid green;" alt="">
+                <div class="" style="display: flex;justify-content: space-evenly; gap: 1.2rem;align-items: center;width: 100%;">
+                    <div class="" style="display: block;text-align: center;line-height: 0.5rem;" id="wardRobe">
+                        <img src="./airliner-30.png" style="height: 28px;width: 28px;object-fit: contain;" alt="">
+                        <p style="font-size: x-small;padding-bottom: 5px;">Wardrobe</p>
+                    </div>
+                    <div class="" style="display: block;text-align: center;line-height: 0.5rem;" id="designScreen">
+                        <img src="./airliner-30.png" style="height: 28px;width: 28px;object-fit: contain;" alt="">
+                        <p style="font-size: x-small;padding-bottom: 5px;"">Design</p>
+                    </div>
+                    <div class="" style="display: block;text-align: center;line-height: 0.5rem;" id="storeScreen">
+                        <img src="./airliner-30.png" style="height: 28px;width: 28px;object-fit: contain;" alt="">
+                        <p style="font-size: x-small;padding-bottom: 5px;"">Store</p>
+                    </div>
+                    <div class="" style="display: block;text-align: center;line-height: 0.5rem;" id="travelScreen">
+                        <img src="./airliner-30.png" style="height: 28px;width: 28px;object-fit: contain;" alt="">
+                        <p style="font-size: x-small;padding-bottom: 5px;"">Travel</p>
+                    </div>
+                </div>
             </div>
-            <div class="">
+            
+            <div class="" style="display: flex;gap: 1rem;">
                 <img src="./button_settings.png" id="openSettingsModal" alt="" style="width: 40px;height: 40px;">
+                <img src="./button_fullscreen.png" id="fullScreeen" alt="" style="width: 40px;height: 40px;" onclick="toggleFullScreen()">
             </div>
         </div>
         <canvas id="canvas"></canvas>
+        <canvas id="wardRobeCanvas"></canvas>
+        <canvas id="StoreCanvas"></canvas>
+        <canvas id="DesignCanvas"></canvas>
+        <canvas id="TravelCanvas"></canvas>
         <div class="icons"
             style="display: flex;align-items: center;overflow-x: auto;justify-content: space-between; height: 50px;background-color: transparent;position: absolute;z-index: 9;width: 100%;bottom: 10px;padding:0 10px;">
             <div class=""
@@ -350,7 +382,7 @@
                 <div class="body" style="padding: 10px;">
                     <ul class="" style="display: flex;gap: 1rem;overflow-x: auto;overflow-y: hidden;">
                         <li>
-                            <a href="../whackamole/" class="ContestBody" style="height: 200px;overflow: hidden;">
+                            <a href="../whack-a-mole-main/" class="ContestBody" style="height: 200px;overflow: hidden;">
                                 <img src="./whackamole.png" style="width: auto;object-fit: cover; height: 200px;" alt="">
                             </a>
                         </li>
@@ -376,6 +408,7 @@
             <img src="./beach-sheet0.png" id="beachScene" alt="">
             <img src="./bluestage-sheet0.png" id="stageScene" alt="">
             <img src="./background.png" id="outDoorStageScene" alt="">
+            <img src="./beautiful-cartoon-woman-portrait.png" id="player" alt="">
             <audio src="./merx-market-song-33936.mp3" id="bgSound"></audio>
         </div>
     </div>
@@ -430,9 +463,7 @@
                 target: SettingsModal,
                 order: 3,
                 group: ""
-            },
-        
-        
+            }
         ];
 
         const tg = new TourGuideClient({
@@ -451,6 +482,7 @@
         const canvas = document.querySelector('#canvas');
         const ctx = canvas.getContext('2d');
         let canvasLeftOffset;
+        $('#screenInfo').hide();
 
         let ActivityBar = document.querySelector('#openActivityBar');
         let GameBar = document.querySelector('#openGameBar');
@@ -497,18 +529,39 @@
             }
         }
 
+        class Player{
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.x = canvas.width * 0.5;
+                this.y = 40;
+                this.width = 342;
+                this.height = canvas.height - 100;
+                this.img = document.querySelector('#player');
+            }
+        }
+
         const GameScreen = new CanvasScreen(canvas, ctx, document.querySelector('#interiorScene'));
         const bgMusic = new AudioControl();
 
         window.addEventListener('load', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            GameScreen.draw();
+            if(!window.screen.orientation.type.startsWith("portrait")) {
+                $('#screenInfo').hide();
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                GameScreen.draw();
+            }else{
+                $('#screenInfo').show();
+            }
             bgMusic.loopBgMusic();
         });
 
         window.addEventListener('resize', (e) => {
-            GameScreen.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
+            if(!window.screen.orientation.type.startsWith("portrait")) {
+                $('#screenInfo').hide();
+                GameScreen.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
+            }else{
+                $('#screenInfo').show();
+            }
         });
 
         function loadGameAssets() {}
@@ -528,7 +581,23 @@
         $('#activityScreen').on('click', (e) => {
             newScreen('outDoorStageScene', 'contestModal');
         });
+
+        const toggleFullScreen = () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+
+        const rotateLandsacpe = () => {
+            const oppositeOrientation = window.screen.orientation.type.startsWith("portrait") ? "landscape" : "portrait";
+            window.screen.orientation.lock(oppositeOrientation).then(() => {
+                    console.log(oppositeOrientation);
+                }).catch((error) => {
+                    console.log(error);
+                });
+        }
     </script>
 </body>
-
 </html>
