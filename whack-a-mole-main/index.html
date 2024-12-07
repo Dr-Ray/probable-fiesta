@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <h1 class="score">SCORE: <span>00</span></h1> -->
+    <h1 class="time">Time: <span id="time">00</span></h1>
     <div class="board">
         <div class="hole"></div>
         <div class="hole"></div>
@@ -22,6 +22,26 @@
     </div>
     <div class="cursor"></div>
 
+    <div id="startPage">
+        <button id="start">
+            <img src="./assets/button_start.png" style="width: 100%;height: auto;" alt="">
+        </button>
+    </div>
+    <div id="gameOver">
+        <div class="" style="position: relative;height: 100%;">
+            <img src="./assets/item_pop.png" style="width:100%;height: 100%;object-fit: contain;" alt="">
+        </div>
+        <div class="info">
+            <div class="info-score">
+                Your Score <span id="score"></span>
+            </div><br/>
+            <button class="info-btn" id="reStart">
+                Play again
+            </button>
+        </div>
+    </div>
+
     <script src="main.js"></script>
+
 </body>
 </html>
